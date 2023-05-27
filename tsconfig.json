@@ -18,11 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "typeRoots": ["./src/@types", "./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
     "baseUrl": "./",
     "paths": {
-      "@interfaces/*": ["src/interfaces/*"],
-      "@components/*": ["src/components/*"]
+      "@interfaces/*": ["src/interfaces/*"]
     }
   },
   "include": ["src"],
