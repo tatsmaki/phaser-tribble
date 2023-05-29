@@ -1,18 +1,18 @@
-import { Physics, Scene } from 'phaser'
+import { Physics, Scene, Math } from 'phaser'
 import { keyboardController } from '../controllers/keyboard.controller'
+import { PI2 } from '../constants/pi.constants'
 
 export class Player extends Physics.Arcade.Sprite {
   declare body: Physics.Arcade.Body
+  private speed = 400
 
   constructor(scene: Scene) {
-    super(scene, 100, 100, 'idle')
+    super(scene, 0, 0, 'idle')
     this.scene.add.existing(this)
     this.scene.physics.add.existing(this)
 
-    this.body.setCollideWorldBounds(true)
-    this.body.setSize(40, 40)
-    this.body.setOffset(40, 40)
-    this.setScale(2)
+    this.body.setSize(800, 800)
+    this.setScale(0.2)
 
     this.anims.create({
       key: 'idle',
@@ -26,22 +26,18 @@ export class Player extends Physics.Arcade.Sprite {
       repeat: -1,
       frameRate: 10
     })
-    // this.debugShowBody = true
-    // this.debugBodyColor = 0x000
+    this.tint = 0xe9724f
   }
 
   update() {
     const x = Number(keyboardController.d) - Number(keyboardController.a)
+    const y = Number(keyboardController.s) - Number(keyboardController.w)
+    const direction = new Math.Vector2(x, y)
 
-    if (x) {
+    if (x || y) {
+      this.setRotation(direction.angle() + PI2)
       this.anims.play('run', true)
-      this.body.velocity.x = x * 300
-
-      if (x < 0) {
-        this.flipX = true
-      } else {
-        this.flipX = false
-      }
+      this.body.setVelocity(x * this.speed, y * this.speed)
     } else {
       this.anims.play('idle', true)
       this.body.setVelocity(0)

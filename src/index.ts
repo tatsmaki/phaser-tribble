@@ -8,14 +8,12 @@ const canvas = document.getElementById('canvas') as HTMLCanvasElement
 
 const config: Types.Core.GameConfig = {
   type: WEBGL,
-  render: { transparent: true },
   width: window.innerWidth,
   height: window.innerHeight,
   physics: {
     default: 'arcade',
     arcade: {
       debug: true
-      // gravity: { y: 200 }
     }
   },
   canvas,
@@ -23,3 +21,7 @@ const config: Types.Core.GameConfig = {
 }
 
 const game = new Game(config)
+
+window.onresize = () => {
+  game.scale.resize(window.innerWidth, window.innerHeight)
+}
